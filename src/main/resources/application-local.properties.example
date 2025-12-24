@@ -1,0 +1,44 @@
+# ローカル開発用設定ファイルテンプレート
+# このファイルをコピーして application-local.properties として保存し、実際の値を設定してください
+# application-local.properties は .gitignore に含まれているため、Git管理外となります
+
+# 使用方法:
+# 1. このファイルを application-local.properties にコピー
+#    cp application-local.properties.example application-local.properties
+# 2. 下記の値を実際のAzure Portal から取得した値に置き換える
+# 3. アプリケーション起動時に --spring.profiles.active=local オプションを指定
+#    mvn spring-boot:run -Dspring-boot.run.profiles=local
+
+# =========================================
+# Microsoft Entra ID Configuration
+# =========================================
+
+# Azure Portal > Microsoft Entra ID > アプリの登録 > 概要 から取得
+# テナントID（ディレクトリID）を設定
+spring.cloud.azure.active-directory.profile.tenant-id=your-tenant-id-here
+
+# Azure Portal > Microsoft Entra ID > アプリの登録 > 概要 から取得
+# アプリケーション（クライアント）IDを設定
+spring.cloud.azure.active-directory.credential.client-id=your-client-id-here
+
+# Azure Portal > Microsoft Entra ID > アプリの登録 > 証明書とシークレット から取得
+# クライアントシークレット（値）を設定
+# 注意: このシークレットは絶対にGitにコミットしないでください
+spring.cloud.azure.active-directory.credential.client-secret=your-client-secret-here
+
+# =========================================
+# Optional: Group-based Access Control
+# =========================================
+# アクセスを特定のグループに制限する場合は以下のコメントを解除して設定
+# spring.cloud.azure.active-directory.user-group.allowed-group-names=Group Name 1,Group Name 2
+
+# =========================================
+# Optional: Local Development Settings
+# =========================================
+# ローカル環境固有のポート番号を指定する場合
+# server.port=8080
+
+# ローカル開発時のログレベル調整
+# logging.level.io.nncdevel.example.auth=TRACE
+# logging.level.org.springframework.security=TRACE
+# logging.level.com.azure.spring=TRACE
