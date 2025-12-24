@@ -1,8 +1,9 @@
 package io.nncdevel.example.auth;
 
+import com.azure.spring.cloud.autoconfigure.implementation.aad.configuration.AadAutoConfiguration;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
 
 /**
  * Basic application tests for the Microsoft Entra ID authentication example.
@@ -10,14 +11,9 @@ import org.springframework.test.context.TestPropertySource;
  * These tests verify that the Spring Boot application context loads correctly
  * and that the basic configuration is valid.
  */
-@SpringBootTest
-@TestPropertySource(properties = {
-    "spring.cloud.azure.active-directory.enabled=false",
-    "spring.security.oauth2.client.registration.test.client-id=test-client",
-    "spring.security.oauth2.client.registration.test.client-secret=test-secret",
-    "spring.security.oauth2.client.provider.test.authorization-uri=https://test.com/oauth/authorize",
-    "spring.security.oauth2.client.provider.test.token-uri=https://test.com/oauth/token",
-    "spring.security.oauth2.client.provider.test.user-info-uri=https://test.com/oauth/userinfo"
+@SpringBootTest(excludeName = {
+    "com.azure.spring.cloud.autoconfigure.implementation.aad.configuration.AadAutoConfiguration",
+    "com.azure.spring.cloud.autoconfigure.implementation.aad.security.AadOAuth2AutoConfiguration"
 })
 class ApplicationTests {
 

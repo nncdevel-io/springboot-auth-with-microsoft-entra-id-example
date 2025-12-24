@@ -6,7 +6,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oauth2Login;
@@ -19,16 +18,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * These tests verify that the security configuration is properly set up
  * and that endpoints have the correct access controls.
  */
-@SpringBootTest
-@AutoConfigureMockMvc
-@TestPropertySource(properties = {
-    "spring.cloud.azure.active-directory.enabled=false",
-    "spring.security.oauth2.client.registration.test.client-id=test-client",
-    "spring.security.oauth2.client.registration.test.client-secret=test-secret",
-    "spring.security.oauth2.client.provider.test.authorization-uri=https://test.com/oauth/authorize",
-    "spring.security.oauth2.client.provider.test.token-uri=https://test.com/oauth/token",
-    "spring.security.oauth2.client.provider.test.user-info-uri=https://test.com/oauth/userinfo"
+@SpringBootTest(excludeName = {
+    "com.azure.spring.cloud.autoconfigure.implementation.aad.configuration.AadAutoConfiguration",
+    "com.azure.spring.cloud.autoconfigure.implementation.aad.security.AadOAuth2AutoConfiguration"
 })
+@AutoConfigureMockMvc
 class SecurityConfigTests {
 
     @Autowired
