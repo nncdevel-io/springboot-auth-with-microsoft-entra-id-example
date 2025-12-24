@@ -18,10 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * These tests verify that the security configuration is properly set up
  * and that endpoints have the correct access controls.
  */
-@SpringBootTest(excludeName = {
-    "com.azure.spring.cloud.autoconfigure.implementation.aad.configuration.AadAutoConfiguration",
-    "com.azure.spring.cloud.autoconfigure.implementation.aad.security.AadOAuth2AutoConfiguration"
-})
+@SpringBootTest
 @AutoConfigureMockMvc
 class SecurityConfigTests {
 

@@ -1,8 +1,6 @@
 package io.nncdevel.example.auth;
 
-import com.azure.spring.cloud.autoconfigure.implementation.aad.configuration.AadAutoConfiguration;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
@@ -11,10 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
  * These tests verify that the Spring Boot application context loads correctly
  * and that the basic configuration is valid.
  */
-@SpringBootTest(excludeName = {
-    "com.azure.spring.cloud.autoconfigure.implementation.aad.configuration.AadAutoConfiguration",
-    "com.azure.spring.cloud.autoconfigure.implementation.aad.security.AadOAuth2AutoConfiguration"
-})
+@SpringBootTest
 class ApplicationTests {
 
     /**

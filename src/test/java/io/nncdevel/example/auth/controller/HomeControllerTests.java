@@ -19,10 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * These tests verify the behavior of the home page controller
  * with different authentication states.
  */
-@SpringBootTest(excludeName = {
-    "com.azure.spring.cloud.autoconfigure.implementation.aad.configuration.AadAutoConfiguration",
-    "com.azure.spring.cloud.autoconfigure.implementation.aad.security.AadOAuth2AutoConfiguration"
-})
+@SpringBootTest
 @AutoConfigureMockMvc
 class HomeControllerTests {
 
