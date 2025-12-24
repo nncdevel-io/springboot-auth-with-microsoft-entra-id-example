@@ -50,7 +50,7 @@
 #### 3.2.1 Application Entry Point
 - **クラス名**: `Application.java`
 - **役割**: Spring Bootアプリケーションのエントリーポイント
-- **パッケージ**: `com.example.auth`
+- **パッケージ**: `io.nncdevel.example.auth`
 
 #### 3.2.2 Security Configuration
 - **クラス名**: `SecurityConfig.java`
@@ -59,18 +59,18 @@
   - Microsoft Entra ID認証の統合
   - 認証が必要なエンドポイントの定義
   - OAuth2ログインの設定
-- **パッケージ**: `com.example.auth.config`
+- **パッケージ**: `io.nncdevel.example.auth.config`
 
 #### 3.2.3 Controllers
 - **HomeController.java**
   - **役割**: トップページの表示
   - **エンドポイント**: `/`
-  - **パッケージ**: `com.example.auth.controller`
+  - **パッケージ**: `io.nncdevel.example.auth.controller`
 
 - **ProfileController.java**
   - **役割**: 認証後のプロフィール情報表示
   - **エンドポイント**: `/profile`
-  - **パッケージ**: `com.example.auth.controller`
+  - **パッケージ**: `io.nncdevel.example.auth.controller`
 
 #### 3.2.4 Configuration Files
 - **application.yml**
@@ -87,15 +87,16 @@
 src/
 ├── main/
 │   ├── java/
-│   │   └── com/
-│   │       └── example/
-│   │           └── auth/
-│   │               ├── Application.java
-│   │               ├── config/
-│   │               │   └── SecurityConfig.java
-│   │               └── controller/
-│   │                   ├── HomeController.java
-│   │                   └── ProfileController.java
+│   │   └── io/
+│   │       └── nncdevel/
+│   │           └── example/
+│   │               └── auth/
+│   │                   ├── Application.java
+│   │                   ├── config/
+│   │                   │   └── SecurityConfig.java
+│   │                   └── controller/
+│   │                       ├── HomeController.java
+│   │                       └── ProfileController.java
 │   └── resources/
 │       ├── application.yml
 │       ├── application-local.yml.example
@@ -108,10 +109,11 @@ src/
 │           └── error.html
 └── test/
     └── java/
-        └── com/
-            └── example/
-                └── auth/
-                    └── ApplicationTests.java
+        └── io/
+            └── nncdevel/
+                └── example/
+                    └── auth/
+                        └── ApplicationTests.java
 ```
 
 ## 4. 認証フロー
