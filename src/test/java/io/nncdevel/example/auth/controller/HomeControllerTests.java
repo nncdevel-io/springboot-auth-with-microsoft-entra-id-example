@@ -24,7 +24,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestPropertySource(properties = {
-    "spring.cloud.azure.active-directory.enabled=false"
+    "spring.cloud.azure.active-directory.enabled=false",
+    "spring.security.oauth2.client.registration.test.client-id=test-client",
+    "spring.security.oauth2.client.registration.test.client-secret=test-secret",
+    "spring.security.oauth2.client.provider.test.authorization-uri=https://test.com/oauth/authorize",
+    "spring.security.oauth2.client.provider.test.token-uri=https://test.com/oauth/token",
+    "spring.security.oauth2.client.provider.test.user-info-uri=https://test.com/oauth/userinfo"
 })
 class HomeControllerTests {
 
@@ -44,11 +49,10 @@ class HomeControllerTests {
     }
 
     /**
-     * Test that the home page shows authenticated user information.
+     * Test that the home page shows authenticated user information with OAuth2.
      */
     @Test
-    @WithMockUser
-    void homePageShowsAuthenticatedUserInfo() throws Exception {
+    void homePageShowsAuthenticatedUserInfoWithOAuth2() throws Exception {
         mockMvc.perform(get("/")
                 .with(oauth2Login()
                     .attributes(attrs -> {
@@ -65,7 +69,6 @@ class HomeControllerTests {
      * Test that the home page handles missing name attribute by using preferred_username.
      */
     @Test
-    @WithMockUser
     void homePageUsesPreferredUsernameWhenNameMissing() throws Exception {
         mockMvc.perform(get("/")
                 .with(oauth2Login()

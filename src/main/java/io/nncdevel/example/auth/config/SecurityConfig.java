@@ -50,18 +50,21 @@ public class SecurityConfig {
                 .requestMatchers("/profile").authenticated()
                 // All other requests require authentication by default
                 .anyRequest().authenticated()
-            )
-            .oauth2Login(oauth2 -> oauth2
-                // Default login page will be used
-                .defaultSuccessUrl("/", true)
-            )
-            .logout(logout -> logout
-                // Configure logout
-                .logoutSuccessUrl("/")
-                .invalidateHttpSession(true)
-                .clearAuthentication(true)
-                .deleteCookies("JSESSIONID")
             );
+
+        // Configure OAuth2 login (works with both AAD and test mocks)
+        http.oauth2Login(oauth2 -> oauth2
+            // Default login page will be used
+            .defaultSuccessUrl("/", true)
+        );
+
+        http.logout(logout -> logout
+            // Configure logout
+            .logoutSuccessUrl("/")
+            .invalidateHttpSession(true)
+            .clearAuthentication(true)
+            .deleteCookies("JSESSIONID")
+        );
 
         return http.build();
     }

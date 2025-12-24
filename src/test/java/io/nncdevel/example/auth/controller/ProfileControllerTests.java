@@ -24,7 +24,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestPropertySource(properties = {
-    "spring.cloud.azure.active-directory.enabled=false"
+    "spring.cloud.azure.active-directory.enabled=false",
+    "spring.security.oauth2.client.registration.test.client-id=test-client",
+    "spring.security.oauth2.client.registration.test.client-secret=test-secret",
+    "spring.security.oauth2.client.provider.test.authorization-uri=https://test.com/oauth/authorize",
+    "spring.security.oauth2.client.provider.test.token-uri=https://test.com/oauth/token",
+    "spring.security.oauth2.client.provider.test.user-info-uri=https://test.com/oauth/userinfo"
 })
 class ProfileControllerTests {
 
@@ -42,11 +47,10 @@ class ProfileControllerTests {
     }
 
     /**
-     * Test that the profile page displays user information for authenticated users.
+     * Test that the profile page displays user information for authenticated users with OAuth2.
      */
     @Test
-    @WithMockUser
-    void profilePageDisplaysUserInformation() throws Exception {
+    void profilePageDisplaysUserInformationWithOAuth2() throws Exception {
         mockMvc.perform(get("/profile")
                 .with(oauth2Login()
                     .attributes(attrs -> {
@@ -66,7 +70,6 @@ class ProfileControllerTests {
      * Test that the profile page handles missing email by using preferred_username.
      */
     @Test
-    @WithMockUser
     void profilePageUsesPreferredUsernameWhenEmailMissing() throws Exception {
         mockMvc.perform(get("/profile")
                 .with(oauth2Login()
@@ -86,7 +89,6 @@ class ProfileControllerTests {
      * Test that the profile page handles missing attributes with default values.
      */
     @Test
-    @WithMockUser
     void profilePageHandlesMissingAttributesWithDefaults() throws Exception {
         mockMvc.perform(get("/profile")
                 .with(oauth2Login()))
