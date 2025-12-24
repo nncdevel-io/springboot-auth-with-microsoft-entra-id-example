@@ -4,10 +4,10 @@
 
 | タスクID | タスク内容 | ステータス |
 |---------|-----------|----------|
-| TASK-001 | Mavenプロジェクト基盤の構築（pom.xml作成） | 未着手 |
-| TASK-002 | ディレクトリ構造の作成 | 未着手 |
-| TASK-003 | .gitignoreの更新（Spring Boot対応） | 未着手 |
-| TASK-004 | アプリケーション設定ファイルの作成（application.yml） | 未着手 |
+| TASK-001 | Mavenプロジェクト基盤の構築（pom.xml作成） | 完了 |
+| TASK-002 | ディレクトリ構造の作成 | 完了 |
+| TASK-003 | .gitignoreの更新（Spring Boot対応） | 完了 |
+| TASK-004 | アプリケーション設定ファイルの作成（application.properties） | 完了 |
 | TASK-005 | ローカル開発用設定ファイルのテンプレート作成 | 未着手 |
 | TASK-006 | Spring Bootメインクラスの実装 | 未着手 |
 | TASK-007 | セキュリティ設定クラスの実装 | 未着手 |
@@ -94,7 +94,7 @@
 **目的**: Spring Bootアプリケーションの基本設定とMicrosoft Entra ID接続設定を定義
 
 **作業内容**:
-- `application.yml`の作成
+- `application.properties`の作成
 - Spring Cloudアプリケーション名の設定
 - サーバーポート設定（8080）
 - Microsoft Entra ID設定：
@@ -105,7 +105,7 @@
   - リダイレクトURI設定
 - ログレベル設定
 
-**成果物**: `src/main/resources/application.yml`
+**成果物**: `src/main/resources/application.properties`
 
 **見積もり工数**: 中
 
