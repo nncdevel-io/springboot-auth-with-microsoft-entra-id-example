@@ -2,11 +2,11 @@ package io.nncdevel.example.auth.controller;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oauth2Login;
@@ -21,14 +21,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * These tests verify the behavior of the profile page controller
  * with different authentication states and user attributes.
  */
-@WebMvcTest(ProfileController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
+@TestPropertySource(properties = {
+    "spring.cloud.azure.active-directory.enabled=false"
+})
 class ProfileControllerTests {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @MockBean
-    private ClientRegistrationRepository clientRegistrationRepository;
 
     /**
      * Test that the profile page requires authentication.

@@ -1,6 +1,7 @@
 package io.nncdevel.example.auth.config;
 
 import com.azure.spring.cloud.autoconfigure.implementation.aad.security.AadWebApplicationHttpSecurityConfigurer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,6 +17,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Value("${spring.cloud.azure.active-directory.enabled:true}")
+    private boolean aadEnabled;
 
     /**
      * Configures the security filter chain with Microsoft Entra ID authentication.
@@ -33,8 +37,10 @@ public class SecurityConfig {
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // Apply Microsoft Entra ID specific security configuration
-        http.apply(AadWebApplicationHttpSecurityConfigurer.aadWebApplication());
+        // Apply Microsoft Entra ID specific security configuration only if enabled
+        if (aadEnabled) {
+            http.apply(AadWebApplicationHttpSecurityConfigurer.aadWebApplication());
+        }
 
         http
             .authorizeHttpRequests(authorize -> authorize
