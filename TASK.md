@@ -59,13 +59,13 @@
 **目的**: Mavenプロジェクトの標準ディレクトリ構造を構築
 
 **作業内容**:
-- `src/main/java/com/example/auth` ディレクトリの作成
-- `src/main/java/com/example/auth/config` ディレクトリの作成
-- `src/main/java/com/example/auth/controller` ディレクトリの作成
+- `src/main/java/io/nncdevel/example/auth` ディレクトリの作成
+- `src/main/java/io/nncdevel/example/auth/config` ディレクトリの作成
+- `src/main/java/io/nncdevel/example/auth/controller` ディレクトリの作成
 - `src/main/resources` ディレクトリの作成
 - `src/main/resources/static/css` ディレクトリの作成
 - `src/main/resources/templates` ディレクトリの作成
-- `src/test/java/com/example/auth` ディレクトリの作成
+- `src/test/java/io/nncdevel/example/auth` ディレクトリの作成
 
 **成果物**: プロジェクトディレクトリ構造
 
@@ -135,7 +135,7 @@
 - `@SpringBootApplication`アノテーションの付与
 - mainメソッドの実装
 
-**成果物**: `src/main/java/com/example/auth/Application.java`
+**成果物**: `src/main/java/io/nncdevel/example/auth/Application.java`
 
 **見積もり工数**: 小
 
@@ -157,7 +157,7 @@
   - ログアウト設定
 - CSRF保護の設定
 
-**成果物**: `src/main/java/com/example/auth/config/SecurityConfig.java`
+**成果物**: `src/main/java/io/nncdevel/example/auth/config/SecurityConfig.java`
 
 **見積もり工数**: 中
 
@@ -174,7 +174,7 @@
 - ビュー名の返却（"index"）
 - 認証状態の確認と情報のModelへの追加
 
-**成果物**: `src/main/java/com/example/auth/controller/HomeController.java`
+**成果物**: `src/main/java/io/nncdevel/example/auth/controller/HomeController.java`
 
 **見積もり工数**: 小
 
@@ -192,7 +192,7 @@
 - ユーザー情報（名前、メールアドレス等）のModelへの追加
 - ビュー名の返却（"profile"）
 
-**成果物**: `src/main/java/com/example/auth/controller/ProfileController.java`
+**成果物**: `src/main/java/io/nncdevel/example/auth/controller/ProfileController.java`
 
 **見積もり工数**: 中
 
@@ -266,7 +266,7 @@
 - コンテキストロードテストの実装
 - セキュリティ設定の基本テスト
 
-**成果物**: `src/test/java/com/example/auth/ApplicationTests.java`
+**成果物**: `src/test/java/io/nncdevel/example/auth/ApplicationTests.java`
 
 **見積もり工数**: 中
 
