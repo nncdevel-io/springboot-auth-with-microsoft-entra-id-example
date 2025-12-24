@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Microsoft Entra ID Authentication Example</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Microsoft Entra ID Authentication Example</h1>
+        </header>
+
+        <main>
+            <div class="welcome-section">
+                <h2>Welcome to the Authentication Demo</h2>
+                <p>This application demonstrates authentication using Microsoft Entra ID (formerly Azure Active Directory).</p>
+            </div>
+
+            <div class="auth-section" th:if="${authenticated}">
+                <div class="user-info">
+                    <p>Hello, <strong th:text="${userName}">User</strong>!</p>
+                    <p>You are successfully authenticated.</p>
+                </div>
+                <div class="action-buttons">
+                    <a th:href="@{/profile}" class="btn btn-primary">View Profile</a>
+                    <form th:action="@{/logout}" method="post" style="display: inline;">
+                        <button type="submit" class="btn btn-secondary">Logout</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="auth-section" th:unless="${authenticated}">
+                <p>Please sign in to access your profile and other features.</p>
+                <div class="action-buttons">
+                    <a th:href="@{/oauth2/authorization/azure}" class="btn btn-primary">Sign in with Microsoft</a>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h3>Features</h3>
+                <ul>
+                    <li>Secure authentication with Microsoft Entra ID</li>
+                    <li>OAuth 2.0 and OpenID Connect integration</li>
+                    <li>User profile information display</li>
+                    <li>Session management</li>
+                </ul>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 Microsoft Entra ID Authentication Example</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - Microsoft Entra ID Authentication Example</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Error</h1>
+        </header>
+
+        <main>
+            <div class="error-section">
+                <div class="error-icon">⚠️</div>
+                <h2>Oops! Something went wrong</h2>
+
+                <div class="error-details">
+                    <p th:if="${status}">
+                        <strong>Status:</strong> <span th:text="${status}">500</span>
+                    </p>
+                    <p th:if="${error}">
+                        <strong>Error:</strong> <span th:text="${error}">Internal Server Error</span>
+                    </p>
+                    <p th:if="${message}">
+                        <strong>Message:</strong> <span th:text="${message}">An unexpected error occurred</span>
+                    </p>
+                    <p th:if="${timestamp}">
+                        <strong>Timestamp:</strong> <span th:text="${timestamp}">2024-01-01 00:00:00</span>
+                    </p>
+
+                    <div th:if="${!status and !error}">
+                        <p>An unexpected error has occurred. Please try again later.</p>
+                    </div>
+                </div>
+
+                <div class="error-help">
+                    <h3>What can you do?</h3>
+                    <ul>
+                        <li>Go back to the home page and try again</li>
+                        <li>Check if you have the proper permissions</li>
+                        <li>Contact support if the problem persists</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <a th:href="@{/}" class="btn btn-primary">Back to Home</a>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 Microsoft Entra ID Authentication Example</p>
+        </footer>
+    </div>
+</body>
+</html>

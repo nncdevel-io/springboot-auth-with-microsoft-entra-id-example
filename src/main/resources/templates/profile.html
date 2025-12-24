@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Microsoft Entra ID Authentication Example</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>User Profile</h1>
+        </header>
+
+        <main>
+            <div class="profile-section">
+                <h2>Your Information</h2>
+
+                <div class="profile-info">
+                    <div class="info-item">
+                        <label>Name:</label>
+                        <span th:text="${userName}">User Name</span>
+                    </div>
+
+                    <div class="info-item">
+                        <label>Email:</label>
+                        <span th:text="${userEmail}">user@example.com</span>
+                    </div>
+
+                    <div class="info-item">
+                        <label>User ID:</label>
+                        <span th:text="${userId}">user-id</span>
+                    </div>
+                </div>
+
+                <div class="attributes-section" th:if="${attributes != null}">
+                    <h3>Additional Attributes</h3>
+                    <div class="attributes-list">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Attribute</th>
+                                    <th>Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="attr : ${attributes}">
+                                    <td th:text="${attr.key}">Attribute Name</td>
+                                    <td th:text="${attr.value}">Attribute Value</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <a th:href="@{/}" class="btn btn-primary">Back to Home</a>
+                <form th:action="@{/logout}" method="post" style="display: inline;">
+                    <button type="submit" class="btn btn-secondary">Logout</button>
+                </form>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 Microsoft Entra ID Authentication Example</p>
+        </footer>
+    </div>
+</body>
+</html>
