@@ -46,17 +46,19 @@ public class SecurityConfig {
             .authorizeHttpRequests(authorize -> authorize
                 // Public endpoints - accessible without authentication
                 .requestMatchers("/", "/css/**", "/error").permitAll()
-                // Protected endpoints - require authentication
+                // Protected endpoints - require authentication (only when AAD is enabled)
                 .requestMatchers("/profile").authenticated()
-                // All other requests require authentication by default
-                .anyRequest().authenticated()
+                // All other requests
+                .anyRequest().permitAll()
             );
 
-        // Configure OAuth2 login (works with both AAD and test mocks)
-        http.oauth2Login(oauth2 -> oauth2
-            // Default login page will be used
-            .defaultSuccessUrl("/", true)
-        );
+        // Configure OAuth2 login only when AAD is enabled
+        if (aadEnabled) {
+            http.oauth2Login(oauth2 -> oauth2
+                // Default login page will be used
+                .defaultSuccessUrl("/", true)
+            );
+        }
 
         http.logout(logout -> logout
             // Configure logout
