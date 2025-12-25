@@ -43,7 +43,6 @@ class HomeControllerTests {
      * Test that the home page shows authenticated user information with OAuth2.
      */
     @Test
-    @Disabled("OAuth2 tests disabled until AAD configuration is properly mocked")
     void homePageShowsAuthenticatedUserInfoWithOAuth2() throws Exception {
         mockMvc.perform(get("/")
                 .with(oauth2Login()
