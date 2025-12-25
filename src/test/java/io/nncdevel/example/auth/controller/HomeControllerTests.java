@@ -22,7 +22,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @SpringBootTest
 @AutoConfigureMockMvc
-@Disabled("Temporarily disabled while fixing test configuration")
 class HomeControllerTests {
 
     @Autowired
@@ -44,6 +43,7 @@ class HomeControllerTests {
      * Test that the home page shows authenticated user information with OAuth2.
      */
     @Test
+    @Disabled("OAuth2 tests disabled until AAD configuration is properly mocked")
     void homePageShowsAuthenticatedUserInfoWithOAuth2() throws Exception {
         mockMvc.perform(get("/")
                 .with(oauth2Login()
@@ -61,6 +61,7 @@ class HomeControllerTests {
      * Test that the home page handles missing name attribute by using preferred_username.
      */
     @Test
+    @Disabled("OAuth2 tests disabled until AAD configuration is properly mocked")
     void homePageUsesPreferredUsernameWhenNameMissing() throws Exception {
         mockMvc.perform(get("/")
                 .with(oauth2Login()
