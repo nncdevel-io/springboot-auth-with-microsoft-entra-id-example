@@ -60,7 +60,6 @@ class HomeControllerTests {
      * Test that the home page handles missing name attribute by using preferred_username.
      */
     @Test
-    @Disabled("OAuth2 tests disabled until AAD configuration is properly mocked")
     void homePageUsesPreferredUsernameWhenNameMissing() throws Exception {
         mockMvc.perform(get("/")
                 .with(oauth2Login()

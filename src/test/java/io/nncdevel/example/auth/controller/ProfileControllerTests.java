@@ -42,7 +42,6 @@ class ProfileControllerTests {
      * Test that the profile page displays user information for authenticated users with OAuth2.
      */
     @Test
-    @Disabled("OAuth2 tests disabled until AAD configuration is properly mocked")
     void profilePageDisplaysUserInformationWithOAuth2() throws Exception {
         mockMvc.perform(get("/profile")
                 .with(oauth2Login()
@@ -63,7 +62,6 @@ class ProfileControllerTests {
      * Test that the profile page handles missing email by using preferred_username.
      */
     @Test
-    @Disabled("OAuth2 tests disabled until AAD configuration is properly mocked")
     void profilePageUsesPreferredUsernameWhenEmailMissing() throws Exception {
         mockMvc.perform(get("/profile")
                 .with(oauth2Login()
@@ -83,7 +81,6 @@ class ProfileControllerTests {
      * Test that the profile page handles missing attributes with default values.
      */
     @Test
-    @Disabled("OAuth2 tests disabled until AAD configuration is properly mocked")
     void profilePageHandlesMissingAttributesWithDefaults() throws Exception {
         mockMvc.perform(get("/profile")
                 .with(oauth2Login()))

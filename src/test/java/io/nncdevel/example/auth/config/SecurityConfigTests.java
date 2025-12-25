@@ -61,7 +61,6 @@ class SecurityConfigTests {
      * Test that authenticated users can access the profile page.
      */
     @Test
-    @Disabled("OAuth2 tests disabled until AAD configuration is properly mocked")
     @WithMockUser
     void authenticatedUsersCanAccessProfile() throws Exception {
         mockMvc.perform(get("/profile")
