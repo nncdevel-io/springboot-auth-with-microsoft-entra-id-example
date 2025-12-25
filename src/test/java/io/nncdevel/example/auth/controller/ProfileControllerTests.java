@@ -79,6 +79,7 @@ class ProfileControllerTests {
 
     /**
      * Test that the profile page handles missing attributes with default values.
+     * Note: oauth2Login() provides default 'sub' attribute as 'user' if not specified.
      */
     @Test
     void profilePageHandlesMissingAttributesWithDefaults() throws Exception {
@@ -88,6 +89,6 @@ class ProfileControllerTests {
                 .andExpect(view().name("profile"))
                 .andExpect(model().attribute("userName", "Unknown"))
                 .andExpect(model().attribute("userEmail", "Not available"))
-                .andExpect(model().attribute("userId", "Not available"));
+                .andExpect(model().attribute("userId", "user"));
     }
 }
