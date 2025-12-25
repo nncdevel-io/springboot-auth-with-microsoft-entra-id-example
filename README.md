@@ -5,12 +5,80 @@ Webアプリケーションの認証をMicrosoft Entra IDを利用する実装�
 
 このプロジェクトは、Spring BootアプリケーションでMicrosoft Entra ID（旧Azure Active Directory）を使用したOAuth2認証を実装するサンプルアプリケーションです。
 
+## 技術スタック
+
+| カテゴリ | 技術 | バージョン |
+|---------|------|-----------|
+| **言語** | Java | 21 |
+| **フレームワーク** | Spring Boot | 3.4.1 |
+| **ビルドツール** | Maven | 3.x |
+| **認証** | Microsoft Entra ID (Azure AD) | - |
+| **OAuth2** | Spring Security OAuth2 Client | 3.4.1 |
+| **Azure統合** | Spring Cloud Azure Active Directory | 5.18.0 |
+| **テンプレートエンジン** | Thymeleaf | 3.4.1 |
+| **セキュリティ** | Spring Security | 6.x |
+
+### 主要な依存関係
+
+- `spring-boot-starter-web` - Spring MVC Webアプリケーション
+- `spring-boot-starter-security` - Spring Security
+- `spring-boot-starter-oauth2-client` - OAuth2/OpenID Connectクライアント
+- `spring-cloud-azure-starter-active-directory` - Microsoft Entra ID統合
+- `spring-boot-starter-thymeleaf` - Thymeleafテンプレートエンジン
+- `thymeleaf-extras-springsecurity6` - ThymeleafとSpring Securityの統合
+
 ## 前提条件
 
 - Java 21以上
 - Maven 3.x以上
 - Microsoftアカウント（Azure Portal へのアクセス権限）
 - Microsoft Entra IDテナント
+
+## プロジェクト構成
+
+```
+springboot-auth-with-microsoft-entra-id-example/
+├── pom.xml                          # Mavenプロジェクト設定ファイル
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── io/nncdevel/example/auth/
+│   │   │       ├── Application.java                      # Spring Bootメインクラス
+│   │   │       ├── config/
+│   │   │       │   └── SecurityConfig.java              # セキュリティ設定
+│   │   │       └── controller/
+│   │   │           ├── HomeController.java              # トップページコントローラー
+│   │   │           └── ProfileController.java           # プロフィールページコントローラー
+│   │   └── resources/
+│   │       ├── application.properties                    # アプリケーション設定
+│   │       ├── application-local.properties.example      # ローカル設定テンプレート
+│   │       ├── static/
+│   │       │   └── css/
+│   │       │       └── style.css                        # スタイルシート
+│   │       └── templates/
+│   │           ├── index.html                           # トップページ
+│   │           ├── profile.html                         # プロフィールページ
+│   │           └── error.html                           # エラーページ
+│   └── test/
+│       └── java/
+│           └── io/nncdevel/example/auth/
+│               ├── ApplicationTests.java                # アプリケーションテスト
+│               ├── config/
+│               │   └── SecurityConfigTests.java         # セキュリティ設定テスト
+│               └── controller/
+│                   ├── HomeControllerTests.java         # Homeコントローラーテスト
+│                   └── ProfileControllerTests.java      # Profileコントローラーテスト
+└── README.md
+```
+
+### 主要コンポーネント
+
+- **Application.java**: Spring Bootアプリケーションのエントリーポイント
+- **SecurityConfig.java**: Microsoft Entra IDとSpring Securityの統合設定
+- **HomeController.java**: 公開トップページ（`/`）のコントローラー
+- **ProfileController.java**: 認証後のプロフィールページ（`/profile`）のコントローラー
+- **application.properties**: アプリケーション全体の設定（プレースホルダー含む）
+- **application-local.properties**: ローカル開発用の設定（Git管理外）
 
 ## Microsoft Entra ID アプリケーション登録
 
@@ -134,25 +202,166 @@ http://localhost:8080
 5. 初回ログイン時は同意画面が表示される場合があります
 6. ログイン成功後、プロフィールページ（`/profile`）にアクセス可能
 
+## ビルドとテスト
+
+### プロジェクトのビルド
+
+依存関係のダウンロードとコンパイルを実行：
+
+```bash
+mvn clean compile
+```
+
+実行可能JARファイルのビルド：
+
+```bash
+mvn clean package
+```
+
+ビルド成果物は `target/springboot-auth-with-microsoft-entra-id-example-0.0.1-SNAPSHOT.jar` に生成されます。
+
+### テストの実行
+
+全てのテストを実行：
+
+```bash
+mvn test
+```
+
+特定のテストクラスのみ実行：
+
+```bash
+# ApplicationTestsのみ実行
+mvn test -Dtest=ApplicationTests
+
+# HomeControllerTestsのみ実行
+mvn test -Dtest=HomeControllerTests
+
+# ProfileControllerTestsのみ実行
+mvn test -Dtest=ProfileControllerTests
+```
+
+### テストカバレッジ
+
+このプロジェクトには以下のテストが含まれています：
+
+- **ApplicationTests**: Spring Bootアプリケーションコンテキストのロードテスト
+- **SecurityConfigTests**: セキュリティ設定の検証
+- **HomeControllerTests**: Homeコントローラーのテスト（認証なし/ありの表示確認）
+- **ProfileControllerTests**: Profileコントローラーのテスト（認証必須の確認）
+
+### ビルドとテストを一度に実行
+
+```bash
+mvn clean install
+```
+
+このコマンドは、クリーン→コンパイル→テスト→パッケージングを順番に実行します。
+
+### ビルド済みJARファイルの実行
+
+```bash
+java -jar target/springboot-auth-with-microsoft-entra-id-example-0.0.1-SNAPSHOT.jar
+```
+
+ローカルプロファイルで実行：
+
+```bash
+java -jar target/springboot-auth-with-microsoft-entra-id-example-0.0.1-SNAPSHOT.jar --spring.profiles.active=local
+```
+
 ## トラブルシューティング
 
 ### リダイレクトURIエラー
 
 **エラー**: `AADSTS50011: The reply URL specified in the request does not match the reply URLs configured for the application`
 
-**解決方法**: Azure Portalのアプリ登録で、リダイレクトURIが正しく設定されているか確認してください。
+**原因**: Azure Portalに登録されたリダイレクトURIとアプリケーションが使用するURIが一致していません。
+
+**解決方法**:
+1. Azure Portal > Microsoft Entra ID > アプリの登録 > 該当アプリ > 認証 を開く
+2. リダイレクトURIに `http://localhost:8080/login/oauth2/code/azure` が登録されているか確認
+3. プラットフォームが「Web」になっているか確認
+4. 設定を保存して、アプリケーションを再起動
 
 ### 認証エラー
 
 **エラー**: `AADSTS7000215: Invalid client secret is provided`
 
-**解決方法**: クライアントシークレットが正しいか、有効期限が切れていないか確認してください。
+**原因**: クライアントシークレットが間違っているか、有効期限が切れています。
+
+**解決方法**:
+1. Azure Portal > Microsoft Entra ID > アプリの登録 > 該当アプリ > 証明書とシークレット を開く
+2. 既存のシークレットの有効期限を確認
+3. 期限切れの場合は新しいシークレットを作成
+4. `application-local.properties` のシークレット値を更新
+5. アプリケーションを再起動
 
 ### アクセス許可エラー
 
 **エラー**: 同意画面で「管理者の承認が必要です」と表示される
 
-**解決方法**: Azure Portalで管理者の同意を付与してください。
+**原因**: 組織のポリシーにより、ユーザーが自分でアプリケーションに同意できない設定になっています。
+
+**解決方法**:
+1. Azure Portal > Microsoft Entra ID > アプリの登録 > 該当アプリ > APIのアクセス許可 を開く
+2. 「（組織名）に管理者の同意を与えます」ボタンをクリック（管理者権限が必要）
+3. 同意が完了したら、再度ログインを試す
+
+### 起動エラー（ポート競合）
+
+**エラー**: `Web server failed to start. Port 8080 was already in use.`
+
+**原因**: 既に別のアプリケーションがポート8080を使用しています。
+
+**解決方法**:
+1. 別のポートを使用する場合：
+   ```bash
+   mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=8081
+   ```
+2. または、`application-local.properties` に以下を追加：
+   ```properties
+   server.port=8081
+   ```
+
+### 設定ファイルが見つからないエラー
+
+**エラー**: `Could not resolve placeholder 'AZURE_TENANT_ID'`
+
+**原因**: 環境変数または設定ファイルにAzure設定が見つかりません。
+
+**解決方法**:
+1. `application-local.properties` ファイルが存在するか確認
+2. ファイルに正しい値が設定されているか確認
+3. ローカルプロファイルで起動しているか確認：
+   ```bash
+   mvn spring-boot:run -Dspring-boot.run.profiles=local
+   ```
+
+### ビルドエラー
+
+**エラー**: `Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin`
+
+**原因**: Java バージョンが21未満です。
+
+**解決方法**:
+1. Javaバージョンを確認：
+   ```bash
+   java -version
+   ```
+2. Java 21以上をインストール
+3. `JAVA_HOME` 環境変数を正しく設定
+
+### ログレベルの調整
+
+問題の詳細を確認するため、ログレベルを上げることができます：
+
+```properties
+# application-local.properties に追加
+logging.level.io.nncdevel.example.auth=TRACE
+logging.level.org.springframework.security=TRACE
+logging.level.com.azure.spring=TRACE
+```
 
 ## セキュリティ上の注意事項
 
