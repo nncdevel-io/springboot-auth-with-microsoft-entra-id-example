@@ -39,7 +39,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // Apply Microsoft Entra ID specific security configuration only if enabled
         if (aadEnabled) {
-            http.apply(AadWebApplicationHttpSecurityConfigurer.aadWebApplication());
+            http.with(AadWebApplicationHttpSecurityConfigurer.aadWebApplication(), customizer -> {});
         }
 
         http

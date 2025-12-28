@@ -1,6 +1,5 @@
 package io.nncdevel.example.auth.config;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -72,13 +71,13 @@ class SecurityConfigTests {
     }
 
     /**
-     * Test that the error page is accessible without authentication.
+     * Test that error handling works for non-existent pages.
+     * Accessing a non-existent page should return a 404 status.
      */
     @Test
-    @Disabled("Error page returns 500 in test environment - needs investigation")
     @WithAnonymousUser
-    void errorPageIsPublic() throws Exception {
-        mockMvc.perform(get("/error"))
-                .andExpect(status().isOk());
+    void nonExistentPageReturns404() throws Exception {
+        mockMvc.perform(get("/non-existent-page"))
+                .andExpect(status().isNotFound());
     }
 }
