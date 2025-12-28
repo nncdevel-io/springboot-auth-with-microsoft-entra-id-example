@@ -11,7 +11,7 @@ Webアプリケーションの認証をMicrosoft Entra IDを利用する実装�
 |---------|------|-----------|
 | **言語** | Java | 21 |
 | **フレームワーク** | Spring Boot | 3.4.1 |
-| **ビルドツール** | Maven | 3.x |
+| **ビルドツール** | Maven Wrapper | 3.x |
 | **認証** | Microsoft Entra ID (Azure AD) | - |
 | **OAuth2** | Spring Security OAuth2 Client | 3.4.1 |
 | **Azure統合** | Spring Cloud Azure Active Directory | 5.18.0 |
@@ -30,14 +30,20 @@ Webアプリケーションの認証をMicrosoft Entra IDを利用する実装�
 ## 前提条件
 
 - Java 21以上
-- Maven 3.x以上
 - Microsoftアカウント（Azure Portal へのアクセス権限）
 - Microsoft Entra IDテナント
+
+**注**: Maven Wrapperを使用するため、Mavenの事前インストールは不要です。
 
 ## プロジェクト構成
 
 ```
 springboot-auth-with-microsoft-entra-id-example/
+├── .mvn/
+│   └── wrapper/
+│       └── maven-wrapper.properties  # Maven Wrapper設定
+├── mvnw                             # Maven Wrapper スクリプト (Unix/Linux/Mac)
+├── mvnw.cmd                         # Maven Wrapper スクリプト (Windows)
 ├── pom.xml                          # Mavenプロジェクト設定ファイル
 ├── src/
 │   ├── main/
@@ -177,12 +183,22 @@ spring.cloud.azure.active-directory.credential.client-secret=<your-client-secret
 
 ### 3. アプリケーションの起動
 
+**Unix/Linux/Mac:**
 ```bash
 # ローカルプロファイルで起動
-mvn spring-boot:run -Dspring-boot.run.profiles=local
+./mvnw spring-boot:run -Dspring-boot.run.profiles=local
 
 # または通常起動（application.propertiesのみ使用）
-mvn spring-boot:run
+./mvnw spring-boot:run
+```
+
+**Windows:**
+```cmd
+# ローカルプロファイルで起動
+mvnw.cmd spring-boot:run -Dspring-boot.run.profiles=local
+
+# または通常起動（application.propertiesのみ使用）
+mvnw.cmd spring-boot:run
 ```
 
 ### 4. アプリケーションへのアクセス
@@ -206,39 +222,78 @@ http://localhost:8080
 
 ### プロジェクトのビルド
 
+**Unix/Linux/Mac:**
+
 依存関係のダウンロードとコンパイルを実行：
 
 ```bash
-mvn clean compile
+./mvnw clean compile
 ```
 
 実行可能JARファイルのビルド：
 
 ```bash
-mvn clean package
+./mvnw clean package
+```
+
+**Windows:**
+
+依存関係のダウンロードとコンパイルを実行：
+
+```cmd
+mvnw.cmd clean compile
+```
+
+実行可能JARファイルのビルド：
+
+```cmd
+mvnw.cmd clean package
 ```
 
 ビルド成果物は `target/springboot-auth-with-microsoft-entra-id-example-0.0.1-SNAPSHOT.jar` に生成されます。
 
 ### テストの実行
 
+**Unix/Linux/Mac:**
+
 全てのテストを実行：
 
 ```bash
-mvn test
+./mvnw test
 ```
 
 特定のテストクラスのみ実行：
 
 ```bash
 # ApplicationTestsのみ実行
-mvn test -Dtest=ApplicationTests
+./mvnw test -Dtest=ApplicationTests
 
 # HomeControllerTestsのみ実行
-mvn test -Dtest=HomeControllerTests
+./mvnw test -Dtest=HomeControllerTests
 
 # ProfileControllerTestsのみ実行
-mvn test -Dtest=ProfileControllerTests
+./mvnw test -Dtest=ProfileControllerTests
+```
+
+**Windows:**
+
+全てのテストを実行：
+
+```cmd
+mvnw.cmd test
+```
+
+特定のテストクラスのみ実行：
+
+```cmd
+rem ApplicationTestsのみ実行
+mvnw.cmd test -Dtest=ApplicationTests
+
+rem HomeControllerTestsのみ実行
+mvnw.cmd test -Dtest=HomeControllerTests
+
+rem ProfileControllerTestsのみ実行
+mvnw.cmd test -Dtest=ProfileControllerTests
 ```
 
 ### テストカバレッジ
@@ -252,8 +307,14 @@ mvn test -Dtest=ProfileControllerTests
 
 ### ビルドとテストを一度に実行
 
+**Unix/Linux/Mac:**
 ```bash
-mvn clean install
+./mvnw clean install
+```
+
+**Windows:**
+```cmd
+mvnw.cmd clean install
 ```
 
 このコマンドは、クリーン→コンパイル→テスト→パッケージングを順番に実行します。
@@ -315,9 +376,13 @@ java -jar target/springboot-auth-with-microsoft-entra-id-example-0.0.1-SNAPSHOT.
 **原因**: 既に別のアプリケーションがポート8080を使用しています。
 
 **解決方法**:
-1. 別のポートを使用する場合：
+1. 別のポートを使用する場合（Unix/Linux/Mac）：
    ```bash
-   mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=8081
+   ./mvnw spring-boot:run -Dspring-boot.run.arguments=--server.port=8081
+   ```
+   Windows:
+   ```cmd
+   mvnw.cmd spring-boot:run -Dspring-boot.run.arguments=--server.port=8081
    ```
 2. または、`application-local.properties` に以下を追加：
    ```properties
@@ -334,8 +399,15 @@ java -jar target/springboot-auth-with-microsoft-entra-id-example-0.0.1-SNAPSHOT.
 1. `application-local.properties` ファイルが存在するか確認
 2. ファイルに正しい値が設定されているか確認
 3. ローカルプロファイルで起動しているか確認：
+
+   Unix/Linux/Mac:
    ```bash
-   mvn spring-boot:run -Dspring-boot.run.profiles=local
+   ./mvnw spring-boot:run -Dspring-boot.run.profiles=local
+   ```
+
+   Windows:
+   ```cmd
+   mvnw.cmd spring-boot:run -Dspring-boot.run.profiles=local
    ```
 
 ### ビルドエラー
