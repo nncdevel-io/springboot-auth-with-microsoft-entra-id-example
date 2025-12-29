@@ -1,4 +1,7 @@
 # springboot-auth-with-microsoft-entra-id-example
+
+[![CI](https://github.com/nncdevel-io/springboot-auth-with-microsoft-entra-id-example/actions/workflows/ci.yml/badge.svg)](https://github.com/nncdevel-io/springboot-auth-with-microsoft-entra-id-example/actions/workflows/ci.yml)
+
 Webアプリケーションの認証をMicrosoft Entra IDを利用する実装例
 
 ## 概要
