@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /Users/izuno/workspaces/nncdevel-io/vscode/springboot-auth-with-microsoft-entra-id-example log --oneline -20)",
+      "Bash(tree:*)",
+      "WebSearch",
+      "WebFetch(domain:github.com)"
+    ]
+  }
+}
