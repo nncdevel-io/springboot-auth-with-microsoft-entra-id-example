@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(markdownlint-cli2:*)",
-      "Bash(cspell lint:*)"
-    ]
-  }
-}
