@@ -46,6 +46,19 @@
         <dependency>
             <groupId>com.azure.spring</groupId>
             <artifactId>spring-cloud-azure-starter-active-directory</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.azure</groupId>
+                    <artifactId>azure-core-http-netty</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- Azure SDK HTTP クライアント (Netty の代わりに JDK 標準 HttpClient を使用) -->
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-core-http-jdk-httpclient</artifactId>
+            <version>1.0.4</version>
         </dependency>
 
         <!-- Spring Boot Thymeleaf -->
