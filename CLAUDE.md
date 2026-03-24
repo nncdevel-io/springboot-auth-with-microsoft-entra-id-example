@@ -1,76 +1,71 @@
-# CLAUDE.md
+# Claude Development Rules
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This document defines rules and guidelines for Claude AI when working on this project.
 
-## プロジェクト概要
+## Documentation Rules
 
-Microsoft Entra ID（旧Azure AD）によるOAuth2/OpenID Connect認証を実装したSpring Boot Webアプリケーションのサンプル。Java 21、Spring Boot 3.5.x、Spring Cloud Azure 5.18.x を使用。
+### Always Update Related Documentation
 
-## ビルド・テストコマンド
+**CRITICAL**: When making any code changes, you **MUST** update all related documentation:
 
-```bash
-# ビルド（コンパイルのみ）
-./mvnw clean compile
+- **README.md**: Update when adding features, changing setup instructions, or modifying usage
+- **API Documentation**: Update when changing API endpoints or interfaces
+- **Configuration Files**: Update comments and examples when changing configuration
+- **CHANGELOG.md**: Document all notable changes (if exists)
+- **Code Comments**: Update inline documentation when modifying code logic
 
-# テスト実行
-./mvnw test
+### Documentation Update Checklist
 
-# 単一テストクラス実行
-./mvnw test -Dtest=SecurityConfigTests
+Before completing any task, verify:
 
-# 単一テストメソッド実行
-./mvnw test -Dtest=SecurityConfigTests#publicEndpointsAccessible
+1. ✅ README.md reflects all new features or changes
+2. ✅ Setup instructions are current and accurate
+3. ✅ Code examples in documentation still work
+4. ✅ Version numbers are updated (if applicable)
+5. ✅ Configuration examples match actual code
 
-# パッケージング（JAR生成）
-./mvnw clean package
+### When Documentation Updates Are Required
 
-# ローカル実行（localプロファイル使用）
-./mvnw spring-boot:run -Dspring-boot.run.profiles=local
-```
+- Adding new features → Update README.md with usage examples
+- Changing dependencies → Update installation/setup sections
+- Modifying APIs → Update API documentation
+- Adding configuration options → Document in README.md and config files
+- Fixing bugs → Update troubleshooting sections if relevant
+- Changing project structure → Update architecture documentation
 
-## ローカル開発環境セットアップ
+## Git Workflow Rules
 
-`src/main/resources/application-local.properties.example` を `application-local.properties` にコピーし、Azure Entra ID のテナントID・クライアントID・クライアントシークレットを設定する。`application-local.properties` は `.gitignore` に含まれている。
+### Commits
 
-## アーキテクチャ
+- Write clear, descriptive commit messages
+- Use conventional commit format when possible (e.g., `feat:`, `fix:`, `docs:`)
+- Commit related changes together
+- Always include documentation updates in the same commit as code changes
 
-### パッケージ構成
+### Branches
 
-```
-io.nncdevel.example.auth/
-├── Application.java                 # エントリポイント
-├── config/
-│   └── SecurityConfig.java          # Spring Security + OAuth2/Entra ID設定
-└── controller/
-    ├── HomeController.java          # "/" - 公開エンドポイント
-    └── ProfileController.java       # "/profile" - 認証必須エンドポイント
-```
+- Work on the designated feature branch
+- Never push to main/master without explicit permission
+- Branch names should be descriptive of the work being done
 
-### 認証フロー
+## Code Quality Rules
 
-1. 未認証ユーザーが `/profile` にアクセス → Spring Security が Entra ID ログインページにリダイレクト
-2. Entra ID で認証後、IDトークン(JWT)が `/login/oauth2/code/azure` に返却
-3. Spring Security がトークンを検証しセッションを確立
+### Before Completing Any Task
 
-### エンドポイントのアクセス制御（SecurityConfig.java）
+1. Verify all tests pass
+2. Check that documentation is updated
+3. Review changes for security vulnerabilities
+4. Ensure code follows project conventions
+5. Confirm all related files are updated
 
-- **公開**: `/`, `/css/**`, `/error`
-- **認証必須**: `/profile`（およびその他すべてのパス）
+## Failure Recovery
 
-### ビュー層
+If you realize documentation was not updated:
 
-Thymeleaf テンプレート (`src/main/resources/templates/`) + 静的リソース (`src/main/resources/static/css/`)。`thymeleaf-extras-springsecurity6` で認証状態に応じた表示切替を行う。
+1. Immediately update the missing documentation
+2. Commit the documentation updates
+3. Ensure this doesn't happen again by following this checklist
 
-### 設定の優先順位
+---
 
-1. 環境変数 (`AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`)
-2. `application-local.properties`（localプロファイル時）
-3. `application.properties`（ベース設定、プレースホルダー使用）
-
-### テスト構成
-
-`@SpringBootTest` + `@AutoConfigureMockMvc` による統合テスト。OAuth2認証のモックには `SecurityMockMvcRequestPostProcessors.oauth2Login()` を使用。
-
-## CI/CD
-
-GitHub Actions (`.github/workflows/ci.yml`)。`main` ブランチへのpush/PRおよび `claude/**` ブランチへのpushで起動。JDK 21 (Temurin) を使用。
+**Remember**: Documentation is not optional. It is a critical part of every code change.
