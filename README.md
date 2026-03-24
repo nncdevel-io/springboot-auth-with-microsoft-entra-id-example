@@ -11,14 +11,14 @@ Webアプリケーションの認証をMicrosoft Entra IDを利用する実装�
 ## 技術スタック
 
 | カテゴリ | 技術 | バージョン |
-|---------|------|-----------|
+| --------- | ------ | ----------- |
 | **言語** | Java | 21 |
-| **フレームワーク** | Spring Boot | 3.4.1 |
+| **フレームワーク** | Spring Boot | 3.5.9 |
 | **ビルドツール** | Maven Wrapper | 3.x |
 | **認証** | Microsoft Entra ID (Azure AD) | - |
-| **OAuth2** | Spring Security OAuth2 Client | 3.4.1 |
+| **OAuth2** | Spring Security OAuth2 Client | 3.5.9 |
 | **Azure統合** | Spring Cloud Azure Active Directory | 5.18.0 |
-| **テンプレートエンジン** | Thymeleaf | 3.4.1 |
+| **テンプレートエンジン** | Thymeleaf | 3.5.9 |
 | **セキュリティ** | Spring Security | 6.x |
 
 ### 主要な依存関係
@@ -27,6 +27,8 @@ Webアプリケーションの認証をMicrosoft Entra IDを利用する実装�
 - `spring-boot-starter-security` - Spring Security
 - `spring-boot-starter-oauth2-client` - OAuth2/OpenID Connectクライアント
 - `spring-cloud-azure-starter-active-directory` - Microsoft Entra ID統合
+  - （`azure-core-http-netty` を除外）
+- `azure-core-http-jdk-httpclient` - Azure SDK用HTTPクライアント（JDK標準HttpClient使用、Nettyの代替）
 - `spring-boot-starter-thymeleaf` - Thymeleafテンプレートエンジン
 - `thymeleaf-extras-springsecurity6` - ThymeleafとSpring Securityの統合
 
@@ -40,11 +42,12 @@ Webアプリケーションの認証をMicrosoft Entra IDを利用する実装�
 
 ## プロジェクト構成
 
-```
+```text
 springboot-auth-with-microsoft-entra-id-example/
 ├── .mvn/
+│   ├── jvm.config.example               # Maven JVMオプション設定テンプレート（プロキシ等）
 │   └── wrapper/
-│       └── maven-wrapper.properties  # Maven Wrapper設定
+│       └── maven-wrapper.properties     # Maven Wrapper設定
 ├── mvnw                             # Maven Wrapper スクリプト (Unix/Linux/Mac)
 ├── mvnw.cmd                         # Maven Wrapper スクリプト (Windows)
 ├── pom.xml                          # Mavenプロジェクト設定ファイル
@@ -105,7 +108,7 @@ springboot-auth-with-microsoft-entra-id-example/
 以下の情報を入力してアプリケーションを登録します：
 
 | 項目 | 設定値 | 説明 |
-|------|--------|------|
+| ------ | -------- | ------ |
 | **名前** | `springboot-auth-example` | 任意のアプリケーション名（識別しやすい名前を推奨） |
 | **サポートされるアカウントの種類** | この組織ディレクトリのみに含まれるアカウント（シングルテナント） | 組織内ユーザーのみアクセス可能 |
 | **リダイレクトURI** | **Web** - `http://localhost:8080/login/oauth2/code/azure` | Spring Securityが認証後にリダイレクトするURI |
@@ -116,7 +119,9 @@ springboot-auth-with-microsoft-entra-id-example/
 - **ローカル環境用URI**: `http://localhost:8080/login/oauth2/code/azure`
 - **本番環境用URI（後で追加）**: `https://yourdomain.com/login/oauth2/code/azure`
 
-**重要**: Spring SecurityのOAuth2クライアント標準のリダイレクトURIパターンは `/login/oauth2/code/{registrationId}` です。
+**重要**: Spring SecurityのOAuth2クライアント標準の
+リダイレクトURIパターンは
+`/login/oauth2/code/{registrationId}` です。
 
 ### 3. アプリケーション登録後の追加設定
 
@@ -148,7 +153,7 @@ springboot-auth-with-microsoft-entra-id-example/
 
 1. 「認証」を選択
 2. 以下を確認・設定：
-   - **フロントチャネルログアウトURL**: `http://localhost:8080` （オプション）
+   - **フロントチャネルログアウトURL**: `http://localhost:8080`
    - **暗黙的な許可およびハイブリッドフロー**: 通常は不要（チェックなし）
    - **パブリッククライアントフローを許可する**: いいえ
 
@@ -157,7 +162,7 @@ springboot-auth-with-microsoft-entra-id-example/
 アプリケーション登録完了後、以下の情報を取得してください：
 
 | 情報 | 取得場所 | 用途 |
-|------|----------|------|
+| ------ | ---------- | ------ |
 | **テナントID（ディレクトリID）** | 「概要」ページ | `spring.cloud.azure.active-directory.profile.tenant-id` |
 | **アプリケーション（クライアント）ID** | 「概要」ページ | `spring.cloud.azure.active-directory.credential.client-id` |
 | **クライアントシークレット（値）** | 「証明書とシークレット」で作成時に表示 | `spring.cloud.azure.active-directory.credential.client-secret` |
@@ -187,6 +192,7 @@ spring.cloud.azure.active-directory.credential.client-secret=<your-client-secret
 ### 3. アプリケーションの起動
 
 **Unix/Linux/Mac:**
+
 ```bash
 # ローカルプロファイルで起動
 ./mvnw spring-boot:run -Dspring-boot.run.profiles=local
@@ -196,6 +202,7 @@ spring.cloud.azure.active-directory.credential.client-secret=<your-client-secret
 ```
 
 **Windows:**
+
 ```cmd
 # ローカルプロファイルで起動
 mvnw.cmd spring-boot:run -Dspring-boot.run.profiles=local
@@ -208,7 +215,7 @@ mvnw.cmd spring-boot:run
 
 ブラウザで以下のURLにアクセス：
 
-```
+```text
 http://localhost:8080
 ```
 
@@ -253,13 +260,15 @@ mvnw.cmd clean compile
 mvnw.cmd clean package
 ```
 
-ビルド成果物は `target/springboot-auth-with-microsoft-entra-id-example-0.0.1-SNAPSHOT.jar` に生成されます。
+ビルド成果物は
+`target/springboot-auth-with-microsoft-entra-id-example-0.0.1-SNAPSHOT.jar`
+に生成されます。
 
 ### テストの実行
 
 **Unix/Linux/Mac:**
 
-全てのテストを実行：
+すべてのテストを実行：
 
 ```bash
 ./mvnw test
@@ -280,7 +289,7 @@ mvnw.cmd clean package
 
 **Windows:**
 
-全てのテストを実行：
+すべてのテストを実行：
 
 ```cmd
 mvnw.cmd test
@@ -311,11 +320,13 @@ mvnw.cmd test -Dtest=ProfileControllerTests
 ### ビルドとテストを一度に実行
 
 **Unix/Linux/Mac:**
+
 ```bash
 ./mvnw clean install
 ```
 
 **Windows:**
+
 ```cmd
 mvnw.cmd clean install
 ```
@@ -338,12 +349,17 @@ java -jar target/springboot-auth-with-microsoft-entra-id-example-0.0.1-SNAPSHOT.
 
 ### リダイレクトURIエラー
 
-**エラー**: `AADSTS50011: The reply URL specified in the request does not match the reply URLs configured for the application`
+**エラー**:
+
+```text
+AADSTS50011: The reply URL specified in the request does not match the reply URLs configured for the application
+```
 
 **原因**: Azure Portalに登録されたリダイレクトURIとアプリケーションが使用するURIが一致していません。
 
 **解決方法**:
-1. Azure Portal > Microsoft Entra ID > アプリの登録 > 該当アプリ > 認証 を開く
+
+1. `Azure Portal > Microsoft Entra ID > アプリの登録 > 該当アプリ > 認証`を開く
 2. リダイレクトURIに `http://localhost:8080/login/oauth2/code/azure` が登録されているか確認
 3. プラットフォームが「Web」になっているか確認
 4. 設定を保存して、アプリケーションを再起動
@@ -355,7 +371,8 @@ java -jar target/springboot-auth-with-microsoft-entra-id-example-0.0.1-SNAPSHOT.
 **原因**: クライアントシークレットが間違っているか、有効期限が切れています。
 
 **解決方法**:
-1. Azure Portal > Microsoft Entra ID > アプリの登録 > 該当アプリ > 証明書とシークレット を開く
+
+1. `Azure Portal > Microsoft Entra ID > アプリの登録 > 該当アプリ > 証明書とシークレット` を開く
 2. 既存のシークレットの有効期限を確認
 3. 期限切れの場合は新しいシークレットを作成
 4. `application-local.properties` のシークレット値を更新
@@ -368,7 +385,8 @@ java -jar target/springboot-auth-with-microsoft-entra-id-example-0.0.1-SNAPSHOT.
 **原因**: 組織のポリシーにより、ユーザーが自分でアプリケーションに同意できない設定になっています。
 
 **解決方法**:
-1. Azure Portal > Microsoft Entra ID > アプリの登録 > 該当アプリ > APIのアクセス許可 を開く
+
+1. `Azure Portal > Microsoft Entra ID > アプリの登録 > 該当アプリ > APIのアクセス許可`を開く
 2. 「（組織名）に管理者の同意を与えます」ボタンをクリック（管理者権限が必要）
 3. 同意が完了したら、再度ログインを試す
 
@@ -376,18 +394,24 @@ java -jar target/springboot-auth-with-microsoft-entra-id-example-0.0.1-SNAPSHOT.
 
 **エラー**: `Web server failed to start. Port 8080 was already in use.`
 
-**原因**: 既に別のアプリケーションがポート8080を使用しています。
+**原因**: すでに別のアプリケーションがポート8080を使用しています。
 
 **解決方法**:
+
 1. 別のポートを使用する場合（Unix/Linux/Mac）：
+
    ```bash
    ./mvnw spring-boot:run -Dspring-boot.run.arguments=--server.port=8081
    ```
+
    Windows:
+
    ```cmd
    mvnw.cmd spring-boot:run -Dspring-boot.run.arguments=--server.port=8081
    ```
+
 2. または、`application-local.properties` に以下を追加：
+
    ```properties
    server.port=8081
    ```
@@ -399,16 +423,19 @@ java -jar target/springboot-auth-with-microsoft-entra-id-example-0.0.1-SNAPSHOT.
 **原因**: 環境変数または設定ファイルにAzure設定が見つかりません。
 
 **解決方法**:
+
 1. `application-local.properties` ファイルが存在するか確認
 2. ファイルに正しい値が設定されているか確認
 3. ローカルプロファイルで起動しているか確認：
 
    Unix/Linux/Mac:
+
    ```bash
    ./mvnw spring-boot:run -Dspring-boot.run.profiles=local
    ```
 
    Windows:
+
    ```cmd
    mvnw.cmd spring-boot:run -Dspring-boot.run.profiles=local
    ```
@@ -420,12 +447,33 @@ java -jar target/springboot-auth-with-microsoft-entra-id-example-0.0.1-SNAPSHOT.
 **原因**: Java バージョンが21未満です。
 
 **解決方法**:
+
 1. Javaバージョンを確認：
+
    ```bash
    java -version
    ```
+
 2. Java 21以上をインストール
 3. `JAVA_HOME` 環境変数を正しく設定
+
+### SSL証明書エラー（企業プロキシ環境）
+
+**エラー**:
+
+```text
+PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+```
+
+**原因**: 企業プロキシのSSLインスペクションにより、プロキシの独自CA証明書がJVMに信頼されていません。
+
+**解決方法**:
+
+- 独自CA証明書をJVMのcacertsにインポートする
+- macOSの場合: `-Djavax.net.ssl.trustStoreType=KeychainStore` を指定
+- Windowsの場合: `-Djavax.net.ssl.trustStoreType=Windows-ROOT` を指定
+
+詳細は「[企業プロキシ環境での利用](docs/CORPORATE_PROXY.md)」を参照してください。
 
 ### ログレベルの調整
 
@@ -449,6 +497,10 @@ logging.level.com.azure.spring=TRACE
    - HTTPS を必ず使用
    - リダイレクトURIを本番ドメインに変更
    - 環境変数で認証情報を管理
+
+## 関連ドキュメント
+
+- [企業プロキシ環境での利用](docs/CORPORATE_PROXY.md) — プロキシ設定、独自CA証明書、Spring Boot起動時のJVM引数
 
 ## ライセンス
 
