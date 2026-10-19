@@ -35,8 +35,9 @@ spring.cloud.azure.active-directory.credential.client-secret=your-client-secret-
 # =========================================
 # Optional: Local Development Settings
 # =========================================
-# ローカル環境固有のポート番号を指定する場合
-server.port=8501
+# ローカル環境固有のポート番号を指定する場合（既定は application.properties の 8080）
+# 変更した場合は Entra ID のリダイレクトURIと post-logout-redirect-uri も合わせて変更すること
+# server.port=8080
 
 # ローカル開発時のログレベル調整
 # logging.level.io.nncdevel.example.auth=TRACE
