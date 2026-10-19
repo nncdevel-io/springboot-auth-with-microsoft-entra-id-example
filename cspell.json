@@ -22,6 +22,12 @@
     "Dtest",
     "Dhttps",
     "Djavax",
-    "mvnw"
+    "mvnw",
+    "webmvc",
+    "Configurer",
+    "microsoftonline",
+    "temurin",
+    "Dskip",
+    "izuno"
   ]
 }

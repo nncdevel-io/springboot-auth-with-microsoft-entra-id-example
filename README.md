@@ -12,29 +12,31 @@ Webアプリケーションの認証をMicrosoft Entra IDを利用する実装�
 
 | カテゴリ | 技術 | バージョン |
 | --------- | ------ | ----------- |
-| **言語** | Java | 21 |
-| **フレームワーク** | Spring Boot | 3.5.14 |
-| **ビルドツール** | Maven Wrapper | 3.x |
+| **言語** | Java | 25 |
+| **フレームワーク** | Spring Boot | 4.1.1 |
+| **ビルドツール** | Maven（Maven Wrapper 経由） | 3.9.16 |
 | **認証** | Microsoft Entra ID (Azure AD) | - |
-| **OAuth2** | Spring Security OAuth2 Client | 3.5.14 |
-| **Azure統合** | Spring Cloud Azure Active Directory | 6.2.0 |
-| **テンプレートエンジン** | Thymeleaf | 3.5.14 |
-| **セキュリティ** | Spring Security | 6.x |
+| **OAuth2** | Spring Security OAuth2 Client | 7.1.1 |
+| **Azure統合** | Spring Cloud Azure Active Directory | 7.4.0 |
+| **テンプレートエンジン** | Thymeleaf | 3.1.5 |
+| **セキュリティ** | Spring Security | 7.1.1 |
 
 ### 主要な依存関係
 
-- `spring-boot-starter-web` - Spring MVC Webアプリケーション
+- `spring-boot-starter-webmvc` - Spring MVC Webアプリケーション
 - `spring-boot-starter-security` - Spring Security
-- `spring-boot-starter-oauth2-client` - OAuth2/OpenID Connectクライアント
+- `spring-boot-starter-security-oauth2-client` - OAuth2/OpenID Connectクライアント
 - `spring-cloud-azure-starter-active-directory` - Microsoft Entra ID統合
   - （`azure-core-http-netty` を除外）
 - `azure-core-http-jdk-httpclient` - Azure SDK用HTTPクライアント（JDK標準HttpClient使用、Nettyの代替）
 - `spring-boot-starter-thymeleaf` - Thymeleafテンプレートエンジン
 - `thymeleaf-extras-springsecurity6` - ThymeleafとSpring Securityの統合
+- `spring-boot-starter-webmvc-test` - MockMvcによるテスト（テスト用）
+- `spring-boot-starter-security-test` - Spring Securityのテスト支援（テスト用）
 
 ## 前提条件
 
-- Java 21以上
+- Java 25以上
 - Microsoftアカウント（Azure Portal へのアクセス権限）
 - Microsoft Entra IDテナント
 
@@ -444,7 +446,7 @@ AADSTS50011: The reply URL specified in the request does not match the reply URL
 
 **エラー**: `Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin`
 
-**原因**: Java バージョンが21未満です。
+**原因**: Java バージョンが25未満です。
 
 **解決方法**:
 
@@ -454,7 +456,7 @@ AADSTS50011: The reply URL specified in the request does not match the reply URL
    java -version
    ```
 
-2. Java 21以上をインストール
+2. Java 25以上をインストール
 3. `JAVA_HOME` 環境変数を正しく設定
 
 ### SSL証明書エラー（企業プロキシ環境）
@@ -501,6 +503,7 @@ logging.level.com.azure.spring=TRACE
 ## 関連ドキュメント
 
 - [企業プロキシ環境での利用](docs/CORPORATE_PROXY.md) — プロキシ設定、独自CA証明書、Spring Boot起動時のJVM引数
+- [初期実装時のタスク一覧](docs/TASK.md) — プロジェクト初期構築時のタスクの記録（完了済み、更新しない）
 
 ## ライセンス
 

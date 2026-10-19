@@ -1,4 +1,5 @@
 config:
-  MD013:
-    tables: false
-    code_blocks: false
+  MD013: false
+  MD024: false
+  MD025:
+    front_matter_title: ""
