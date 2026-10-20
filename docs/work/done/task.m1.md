@@ -39,10 +39,10 @@ related:
 | TASK-004 | ✅ | pom.xml のスターターを Boot 4 の名称に変え、テスト用スターターを足す | TASK-003 |
 | TASK-005 | ✅ | テスト3ファイルの AutoConfigureMockMvc の import を新パッケージに直す | TASK-004 |
 | TASK-006 | ✅ | SecurityConfig を Spring Security 7 で動くよう直し、全テストを通す | TASK-005 |
-| TASK-007 | 🧪 | 実テナントで Entra ID のログイン・プロフィール表示・ログアウトを確認する | TASK-006 |
+| TASK-007 | ✅ | 実テナントで Entra ID のログイン・プロフィール表示・ログアウトを確認する | TASK-006 |
 | TASK-008 | ✅ | ci.yml の JDK を 25 に変え、各 Action を最新メジャー版に上げる | TASK-006 |
 | TASK-009 | ✅ | README.md と SOFTWARE_ARCHITECTURE.md の版と依存一覧を更新する | TASK-006 |
-| TASK-010 | ⏳ | 変更一式のプルリクエストを作成し、CI の成功を確認する | TASK-007,TASK-008,TASK-009 |
+| TASK-010 | ✅ | 変更一式のプルリクエストを作成し、CI の成功を確認する | TASK-007,TASK-008,TASK-009 |
 
 ## タスク詳細（補足が必要な場合のみ）
 
@@ -75,7 +75,7 @@ related:
 
 - 注意: Entra ID テナントの認証情報が必要なため、確認はユーザーが行う。エージェントは 🧪 までとする
 - 補足: ダミーの認証情報で起動し、`/` と `/css/style.css` が200、`/profile` から `/oauth2/authorization/azure` を経て `login.microsoftonline.com` の認可エンドポイントへ302で転送されることを確認した
-- 未確認: 実テナントでのログイン、コールバック後のプロフィール表示、ログアウト
+- 補足: テナントアプリのクライアントシークレットが失効していたため再発行を受け、実テナントでのログイン・プロフィール表示・ログアウトが意図どおり動くことをユーザーが確認した
 
 ### TASK-008
 
@@ -85,6 +85,10 @@ related:
 
 - 補足: README.md は技術スタックの表、主要な依存関係、前提条件、トラブルシューティングの Java の版を直す
 - 注意: SOFTWARE_ARCHITECTURE.md には既存の markdownlint 指摘が51件あり、編集時にあわせて直す
+
+### TASK-010
+
+- 補足: [PR #16](https://github.com/nncdevel-io/springboot-auth-with-microsoft-entra-id-example/pull/16) を作成し、CI の成功を確認したうえで main にマージした
 
 ## Backlog一覧
 
